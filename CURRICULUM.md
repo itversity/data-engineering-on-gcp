@@ -1,7 +1,8 @@
 # Data Engineering on GCP
 
-## Getting Started with GCP
+## Getting Started with Data Engineering on GCP
 * Pre-requisite Skills for the course
+* Overview of Google Cloud Platform
 * Signing up for GCP
 * Setup Google Cloud SDK
 * Overview of Analytics Services on GCP
@@ -28,7 +29,8 @@
 * Overview of Cloud SQL
 * Setup Postgres Database Server using Cloud SQL
 * Configure Network to Connect to Database
-* Install pgAdmin on Local Development Environment
+* Install PostgreSQL Database Server
+* Configure psql CLI
 * Connect to Postgres Database using pgAdmin
 * Create Database for Retail using Postgres
 * Setup Tables and Load Data using Postgres
