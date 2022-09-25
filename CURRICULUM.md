@@ -45,6 +45,12 @@
 * Cumulative Aggregations and Ranking using Google Big Query
 
 ## Data Processing using Google Functions
+* Overview of Google Cloud Functions
+* Validate GCS Bucket
+* Create Google Cloud Function for Cloud Storage
+* Update Requirements for the Project
+* Review File Converter Logic
+* Deploy File Converter Logic
 
 ## Big Data Processing using Google Dataproc
 * Overview of GCP Dataproc

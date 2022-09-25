@@ -29,19 +29,32 @@ As part of this lecture, we will setup GCS Bucket and upload files from local fi
 |---|---|
 |`gs mb gs://aidedemo`|To create bucket|
 |`gs rb gs://aidedemo`|To remove bucket|
-|`gs list gs://aidedemo`|To list files and folders in **airetail** bucket|
-|`gs list -r gs://aidedemo`|To list all files and folders recursively in **airetail** bucket|
+|`gs list gs://aidedemo`|To list files and folders in `aidedemo` bucket|
+|`gs list -r gs://aidedemo`|To list all files and folders recursively in `aidedemo` bucket|
 |`gs ls`|`ls` and `list` are aliases|
 |`gs help ls` or `gs help list`|To get help on `ls` or `list` commands|
 |`gs cp -r data/retail_db gs://aidedemo/data/retail_db`|To copy `retail_db` folder recursively from local file system to GCS Bucket in specified path|
 |`gs rm -r gs://aidedemo/data/retail_db`|To delete `retail_db` folder recursively from specified path in GCS|
 
-
 ## Overview of Data Sets
 
+Let us get a quick overview about data sets.
+* Data Sets are part of our GitHub repository.
+* If you have already setup GitHub repository, you should see `data` folder.
+* We will use these data sets during the course of the course.
+
 ## Manage Files in GCS using gsutil commands
+Let me demonstrate how to manage files in `aidedemo` bucket.
+* Delete the bucket, if it exists (we need to empty the folder first).
+* Create the bucket.
+* Add `data/retail_db` recursively to `gs:/aidedemo/data/retail_db` recursively.
+* Review all the files in `data/retail_db` and also `gs:/aidedemo/data/retail_db`.
+* Make sure all the files are successfully copied.
 
 ## Copy Retail Data Set to GCS using gsutil commands
+Take it as an exercise and make sure to copy `data/retail_db_json` recursively to `gs:/aidedemo/data/retail_db_json`.
+* Copy the folder recursively to existing bucket.
+* Review if all the files are successfully copied or not.
 
 ## Manage Files in GCS using Python
 
