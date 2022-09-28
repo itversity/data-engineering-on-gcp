@@ -195,6 +195,19 @@ Let us get an overview of Dataproc Jobs and Workflows.
   * Create Workflow Template using Jobs based on the design.
 
 ## Getting Started with Dataproc Jobs using Spark SQL
+Let us see how to get started with Dataproc Jobs using Spark SQL.
+* Go to the Job Wizard
+* Create Job of type Spark SQL
+* Choose Command and enter the following command.
+
+```
+INSERT OVERWRITE DIRECTORY 'gs://airetail/retail_db_json/daily_status_count'
+USING JSON
+SELECT order_date, order_status, count(*)
+FROM JSON.`gs://airetail/retail_db_json/orders`
+GROUP BY 1, 2
+ORDER BY 1, 2
+```
 
 ## Modularize Dataproc Applications as Multiple Jobs
 As part of this lecture we will modularize Dataproc Applications as Multiple Jobs using Spark SQL.
@@ -208,3 +221,5 @@ As part of this lecture we will modularize Dataproc Applications as Multiple Job
 ## Access Spark UI of GCP Dataproc
 
 ## Troubleshoot Spark Jobs using Spark UI on Dataproc
+
+## Integration of Dataproc and BigQuery
