@@ -1,6 +1,7 @@
 # Data Processing using Google Cloud Functions
 
 ## Overview of Google Cloud Functions
+Google Cloud Functions are nothing but serverless functions provided as part of Google Cloud Platform.
 
 ## Create First Google Cloud Function using Python
 
@@ -28,29 +29,54 @@ Here are the instructions to run and validate Google Cloud Function.
 > TBD: Need to make the logic dynamic. 
 * Source: `landing/retail_db/orders`
 * Source File Format: `CSV`
-* Schema: `landing/retail_db/schema.json`
+* Schema: `landing/retail_db/schemas.json`
 * Target: `bronze/retail_db/orders`
 * Target File Format: `parquet`
 
 Here is the design for the file format conversion.
 * The application should take table name as argument.
-* It has to read the schema from `schema.json` and need to be applied on `CSV` data while creating Pandas Data Frame.
+* It has to read the schema from `schemas.json` and need to be applied on `CSV` data while creating Pandas Data Frame.
 * The Data Frame should be written to target using target file format.
 * Source Bucket, Target Bucket as well as base folders should be passed as environment variables.
 
 ```python
+import json
+import os
 import pandas as pd
-columns = ['order_id', 'order_date', 'order_customer_id', 'order_status']
-df = pd.read_csv('gs://airetail/retail_db/orders/part-00000', names=columns)
-df.to_parquet('gs://airetail/retail_db_parquet/orders/part-00000.snappy.parquet')
+
+def get_columns(input_base_dir, table_name):
+    schemas = json.load(open(f'{input_base_dir}/schemas.json'))
+    columns = list(map(lambda td: td['column_name'], schemas[table_name]))
+    return columns
+
+
+input_base_dir = 'data/retail_db'
+output_base_dir = 'data/retail_db_parquet'
+table_name = 'orders'
+columns = get_columns(input_base_dir, table_name)
+print(columns)
+for file in os.listdir(f'{input_base_dir}/{table_name}'):
+    print(file)
+    df = pd.read_csv(f'{input_base_dir}/{table_name}/{file}', names=columns)
+    os.makedirs(f'{output_base_dir}/{table_name}', exist_ok=True)
+    df.to_parquet(f'{output_base_dir}/{table_name}/{file}.snappy.parquet')
 ```
 
 ## Deploy Inline Application as Google Cloud Function
+As we have reviewed the core logic, let us make sure to deploy file format converted as Google Cloud Function.
+* Create Function with relevant run time (Python 3.9).
+* Update `requirements.txt` with all the required dependencies.
+* Update the program file with the logic to convert the file format.
+* Review the configuration and make sure memory is upgraded to 1 GB (from 256 MB)
+* Update Environment Variables for bucket names as well as base folder names.
 
 ## Run Inline Application as Google Cloud Function
+As File Format Converter as deployed as Cloud Function, let us go through the details of running it. We will also validate to confirm if the Cloud Function is working as expected or not.
+* Run the Cloud Function by passing Table Name as run time argument.
+* Review the logs to confirm, the Cloud Function is executed with out any errors.
+* Review the files in GCS in the target location.
+* Use Pandas `read_parquet` to see if the data in the converted files can be read into Pandas Data Frame.
 
-## Deploy Zipped Application in GCS as Google Cloud Function
+## Build and Deploy Application in GCS as Google Cloud Function
 
-## Run Zipped Application in GCS as Google Cloud Function
-
-## Validate File Format Converter Google Cloud Function
+## Run Deployed Application in GCS as Google Cloud Function

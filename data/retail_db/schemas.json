@@ -1,0 +1,24 @@
+{
+    "orders": [
+        {
+            "column_name": "order_id",
+            "data_type": "integer",
+            "column_position": 1
+        },
+        {
+            "column_name": "order_date",
+            "data_type": "string",
+            "column_position": 1
+        },
+        {
+            "column_name": "order_customer_id",
+            "data_type": "timestamp",
+            "column_position": 1               
+        },
+        {
+            "column_name": "order_status",
+            "data_type": "string",
+            "column_position": 4
+        }
+    ]
+}
