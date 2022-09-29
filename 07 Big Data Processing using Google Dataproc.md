@@ -214,12 +214,18 @@ As part of this lecture we will modularize Dataproc Applications as Multiple Job
 * Convert `orders` and `order_items` to **Parquet File Format**. We will have
 * Compute Daily Product Revenue and save the result to Google Cloud Storage.
 
+Refer to respective scripts under scripts folder in our Git Repository. Make sure to copy the scripts into GCS and run directly using `spark-sql` on Dataproc Cluster for unit testing.
+
 ## Job Orchestration using Dataproc Workflows
+Let us go ahead and create the 3 jobs and then create workflow using the jobs just created.
+* One job to process `orders` data set and convert into **Parquet** format in a metastore table.
+* One job to process `order_items` data set and convert into **Parquet** format in a metastore table.
+* One job to compute daily product revenue and store the result in a metastore table.
+* The locations for all the 3 tables are based on GCS.
+* Create Workflow Template using all the 3 jobs. We need to define first 2 jobs as dependencies for the 3rd job.
 
 ## Run and Validate Dataproc Workflows
 
 ## Access Spark UI of GCP Dataproc
 
 ## Troubleshoot Spark Jobs using Spark UI on Dataproc
-
-## Integration of Dataproc and BigQuery
