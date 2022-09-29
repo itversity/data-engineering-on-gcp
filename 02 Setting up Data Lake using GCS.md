@@ -1,6 +1,20 @@
 # Setting up Data Lake using GCS
 
 ## Getting Started with GCS
+Let us get started with GCS or Google Cloud Storage.
+* GCS is reliable and secure object storage.
+
+Here are some of the key features of GCS.
+* Low cost object storage, which is accessible from any where.
+* Supports lower-cost classes.
+  * Standard (frequent data)
+  * Nearline (backups)
+  * Coldline (older backups)
+  * Archive (regulatory archives)
+* Multiple redundancy options for high availability or reliability.
+* Easy transfer of Data to Cloud Storage using Storage Transfer Service.
+
+You can review details about GCS by followig [official documentation](https://cloud.google.com/storage).
 
 ## Overview of GCS Web UI
 
@@ -57,5 +71,17 @@ Take it as an exercise and make sure to copy `data/retail_db_json` recursively t
 * Review if all the files are successfully copied or not.
 
 ## Manage Files in GCS using Python
+Let us see how we can manage files in GCS using Python as Programming Language.
+* We need to make sure the storage module is imported and the client is created.
+* Using storage client we will be able to manage buckets as well as files (blobs) in GCS using Python
+
+Refer to the Notebook which have few examples related to managing files in GCS using Python.
 
 ## Overview of processing data in GCS using Pandas
+Let us see how we can process data in GCS using Pandas.
+* Pandas is the most popular library used to process as well as analyze the data.
+* We can seamlessly read data from GCS Files as well as write data to GCS Files using Pandas.
+* We need to have `pandas` and `gcsfs` installed using pip in the same virtual environment so that Pandas can be used to process data in GCS Files.
+* At times we might have to install additional libraries to process data using particular format (for eg: pyarrow needs to be installed to work with Parquet).
+
+Refer to the Notebook which have few examples related to reading CSV files in GCS using Pandas and then writing the data into Parquet files in GCS.

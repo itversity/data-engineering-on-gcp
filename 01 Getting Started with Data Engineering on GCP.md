@@ -32,8 +32,12 @@ Let us get an overview of Google Cloud Platform.
 * We can manage GCP Services using CLI or SDK using all prominent programming languages such as Python, Java, etc.
 
 ## Signing up for GCP
+Let us make sure we signup for GCP using valid email id. Keep in mind that you are eligible for USD 300 credit which is valid for 3 months.
 
 ## Setup Google Cloud SDK
+Click [here](https://cloud.google.com/sdk/docs/install) to go to the instructions related to setting up gcloud CLI.
+
+## Configure Google Cloud SDK
 
 ## Overview of Analytics Services on GCP
 
