@@ -2,6 +2,10 @@
 
 ## Overview of Google Cloud Functions
 Google Cloud Functions are nothing but serverless functions provided as part of Google Cloud Platform.
+* Simplified developer experience and increased developer velocity
+* Pay only for what you use
+* Avoid lock-in with open technology
+You can follow this [page](https://cloud.google.com/functions) to get more details about Google Cloud Functions.
 
 ## Create First Google Cloud Function using Python
 

@@ -1,6 +1,18 @@
 # Data Warehouse using Google BigQuery
 
 ## Overview of Google BigQuery
+Here are the benefits of Google BigQuery.
+* Gain insights with real-time and predictive analytics
+* Access data and share insights with ease
+* Protect your data and operate with trust
+
+Here are the key features of Google BigQuery.
+* ML and predictive modeling with BigQuery ML.
+* Multicloud data analysis with BigQuery Omni.
+* Interactive data analysis with BigQuery BI Engine.
+* Geospatial analysis with BigQuery GIS.
+
+You can follow this [page](https://cloud.google.com/bigquery) to get more details about Google BigQuery. As part of this course, we will see how to get started from the perspective of Interactive data analysis with BigQuery BI Engine as it is closest to the Data Engineering.
 
 ## Create Dataset and Tables in Google BigQuery
 Let us go ahead and see how we can create Dataset and an empty table using Google BigQuery.
@@ -130,3 +142,44 @@ Let us get an overview of Key Integrations with Google BigQuery.
 * Programming Languages such as Python
 
 ## Python Pandas Integration with Google BigQuery
+Let us get an overview of Python Pandas Integration with Google BigQuery.
+* We need to install `pandas`, `pandas-gbq` and `google-cloud-bigquery` to get data from Google BigQuery table into Pandas Dataframe.
+* Once all the required libraries installed, we can use `pd.read_gbq` by passing query as argument.
+
+```python
+import pandas as pd
+query = '''
+    SELECT order_status, count(*) AS order_count
+    FROM `itversity-rnd.retail.orders`
+    GROUP BY 1
+    ORDER BY 2 DESC
+'''
+project_id = 'itversity-rnd'
+df = pd.read_gbq(query, project_id=project_id)
+df
+```
+
+## Integration of BigQuery with Cloud SQL
+Let us get an overview of Integration of BigQuery with Cloud SQL (Postgresql).
+* Click on **ADD DATA** and choose **External data source**.
+* Use the instance connection name (from Cloud SQL) and credentials to add the external data source.
+* Run queries using `EXTERNAL_QUERY` function in `FROM` clause. We need to pass the external connection and valid postgres query as arguments to `EXTERNAL_QUERY`.
+
+```sql
+SELECT * 
+FROM EXTERNAL_QUERY(
+    "itversity-rnd.us.retail_pg", 
+    "SELECT * FROM INFORMATION_SCHEMA.TABLES;"
+);
+
+SELECT * 
+FROM EXTERNAL_QUERY(
+    "itversity-rnd.us.retail_pg", 
+    """
+        SELECT order_date, count(*) AS order_count 
+        FROM orders 
+        GROUP BY order_date
+        ORDER BY 1;
+    """
+);
+```
