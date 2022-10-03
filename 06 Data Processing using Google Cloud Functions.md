@@ -48,22 +48,22 @@ import json
 import os
 import pandas as pd
 
-def get_columns(input_base_dir, table_name):
+def get_columns(input_base_dir, ds_name):
     schemas = json.load(open(f'{input_base_dir}/schemas.json'))
-    columns = list(map(lambda td: td['column_name'], schemas[table_name]))
+    columns = list(map(lambda td: td['column_name'], schemas[ds_name]))
     return columns
 
 
-input_base_dir = 'data/retail_db'
-output_base_dir = 'data/retail_db_parquet'
-table_name = 'orders'
-columns = get_columns(input_base_dir, table_name)
+input_base_dir = os.environ.get('INPUT_BASE_DIR')
+output_base_dir = os.environ.get('OUTPUT_BASE_DIR')
+ds_name = 'orders'
+columns = get_columns(input_base_dir, ds_name)
 print(columns)
-for file in os.listdir(f'{input_base_dir}/{table_name}'):
+for file in os.listdir(f'{input_base_dir}/{ds_name}'):
     print(file)
-    df = pd.read_csv(f'{input_base_dir}/{table_name}/{file}', names=columns)
-    os.makedirs(f'{output_base_dir}/{table_name}', exist_ok=True)
-    df.to_parquet(f'{output_base_dir}/{table_name}/{file}.snappy.parquet')
+    df = pd.read_csv(f'{input_base_dir}/{ds_name}/{file}', names=columns)
+    os.makedirs(f'{output_base_dir}/{ds_name}', exist_ok=True)
+    df.to_parquet(f'{output_base_dir}/{ds_name}/{file}.snappy.parquet')
 ```
 
 ## Deploy Inline Application as Google Cloud Function
@@ -81,6 +81,12 @@ As File Format Converter as deployed as Cloud Function, let us go through the de
 * Review the files in GCS in the target location.
 * Use Pandas `read_parquet` to see if the data in the converted files can be read into Pandas Data Frame.
 
+## Setup Project for Google Cloud Function
+Let us go ahead and setup project for Google Cloud Function using VS Code.
+* Create new project.
+* Create Python Virtual Environment using Python 3.9
+* Add dependencies for local develement to `requirements_dev.txt`
+* Add Driver Program for Google Cloud Function.
 ## Build and Deploy Application in GCS as Google Cloud Function
 
 ## Run Deployed Application in GCS as Google Cloud Function
