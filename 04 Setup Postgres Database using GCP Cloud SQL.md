@@ -36,14 +36,14 @@ Make sure to setup Postgres on your local environment, so that you get all the t
 psql -h <host_ip> -U postgres -W
 ```
 
-## Setup Database in Postgres using Cloud SQL
+## Setup Database in GCP Cloud SQL Postgres Database Server
 ```sql
 CREATE DATABASE itversity_retail_db;
 CREATE USER itversity_retail_user WITH ENCRYPTED PASSWORD 'itversity';
 GRANT ALL ON DATABASE itversity_retail_db TO itversity_retail_user;
 ```
 
-## Setup Tables in Postgres using Cloud SQL
+## Setup Tables in GCP Cloud SQL Postgres Database
 Let us go ahead and setup retail db tables and also populate data in Postgres Database provisioned using Cloud SQL.
 * The scripts are provided under `data/retail_db` folder with in this GitHub repository.
 * Connect to the newly created Postgres Database using `psql`. Here is the command for your reference.
@@ -59,7 +59,7 @@ psql -h <host_ip> -d itversity_retail_db -U itversity_retail_user -W
 \i data/retail_db/load_db_tables_pg.sql
 ```
 
-## Validate Data in Tables in Postgres
+## Validate Data in GCP Cloud SQL Postgres Database Tables
 Here are the SQL Queries you can use to validate data in the tables. You can run these using `psql` or tools such as pgAdmin.
 
 ```sql
@@ -79,7 +79,7 @@ SELECT count(*) FROM products;
 SELECT count(*) FROM customers;
 ```
 
-## Integration of Postgres using Cloud SQL with Python
+## Integration of GCP Cloud SQL Postgres with Python
 Let us also see how we can get started with Python based applications using Cloud SQL Postgres.
 * We need to setup `psycopg2-binary` using `pip`. You can use `pip install psycopg2-binary` to install Postgres Python Connector Library in the virtual environment of the project.
 * We can then create connection object.
@@ -101,7 +101,7 @@ cur.execute('SELECT * FROM orders LIMIT 10')
 cur.fetchall()
 ```
 
-## Integration of Postgres using Cloud SQL with Pandas
+## Integration of GCP Cloud SQL Postgres with Pandas
 Pandas is a powerful Python Data Library which is used to process as well as analyze the data. It have robust APIs to work with databases.
 
 Here are the steps involved to use Pandas to work with databases like Postgres.
@@ -137,17 +137,27 @@ df = pd.read_sql(
 ```
 
 ## Create Secret for Postgres using GCP Secret Manager
+Let us go ahead and create Secret for Postgres using Secret Manager.
 
 ## Access Secret Details using Google Cloud SDK
-Make sure to install `google-cloud-secret-manager`.
-* Follow [this page](https://cloud.google.com/secret-manager/docs/configuring-secret-manager) to configure access to GCP Secrets Manager.
+Let us see how to access secret details using Google Cloud Python SDK.
+
+* Follow [this page](https://cloud.google.com/secret-manager/docs/configuring-secret-manager) to configure access to GCP Secret Manager.
+* Install `google-cloud-secret-manager`
+
+Here is the process involved to get secret details as part of the applications.
+* Create Secret Manager Client Object
+* Get Secret Details
+* Use Secret Details (to connect to Databases)
+
+
 ```python
 import json
 from google.cloud import secretmanager
 client = secretmanager.SecretManagerServiceClient()
 
 project_id = 'itversity-rnd'
-secret_id = 'retail_secret'
+secret_id = 'retailsecret'
 version_id = 1
 name = f"projects/{project_id}/secrets/{secret_id}/versions/{version_id}"
 

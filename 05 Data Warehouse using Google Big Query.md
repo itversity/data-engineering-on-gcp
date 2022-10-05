@@ -12,7 +12,7 @@ Here are the key features of Google BigQuery.
 * Interactive data analysis with BigQuery BI Engine.
 * Geospatial analysis with BigQuery GIS.
 
-You can follow this [page](https://cloud.google.com/bigquery) to get more details about Google BigQuery. As part of this course, we will see how to get started from the perspective of Interactive data analysis with BigQuery BI Engine as it is closest to the Data Engineering.
+You can follow this [page](https://cloud.google.com/bigquery) to get more details about Google BigQuery. As part of this course, we will see how to get started from the perspective of Interactive data analysis with BigQuery BI Engine as it is closest to the Data Engineering. We will also look into key integrations such as Python, Pandas, and Spark using Dataproc/Databricks.
 
 ## Create Dataset and Tables in Google BigQuery
 Let us go ahead and see how we can create Dataset and an empty table using Google BigQuery.
@@ -28,10 +28,36 @@ order_customer_id: INTEGER,
 order_status:STRING
 ```
 
-Exercise: Create Empty tables for order_items and products.
+## Exercise to Create Additional Tables in Google BigQuery Dataset
+Let us go ahead and Create Empty tables for `order_items` and `products` in the `retail` dataset.
+
+Here are the schema details for `order_items`.
+
+```
+order_item_id:INTEGER
+order_item_order_id:INTEGER
+order_item_product_id:INTEGER
+order_item_quantity:INTEGER
+order_item_subtotal:DECIMAL
+order_item_product_price:DECIMAL
+```
+
+Here are the schema details for `products`.
+
+```
+product_id:INTEGER
+product_cateogry_id:INTEGER
+product_name:STRING
+product_description:STRING
+product_price:DECIMAL
+product_image:STRING
+```
 
 ## Setup Service Account for Google BigQuery
-Here are the instructions to setup service account for Google BigQuery.
+Let us go ahead and setup service account for Google BigQuery and Download the Credentials.
+* Authentication and Authorization from External Environments
+
+Here are the instructions to setup service account and download the credentials (also known as keys).
 * You can use instructions in this [document](https://cloud.google.com/bigquery/docs/quickstarts/quickstart-client-libraries) to get instructions related to Google Client Service Accounts.
 * Make sure to choose appropriate Project.
 * Enable BigQuery API 
@@ -46,7 +72,12 @@ Here is the Python based approach to load data from files in GCS into Google Big
 
 You can go through the notebook and make required changes to see if it works as expected or not. You can also validate by running queries against the table using Google BigQuery UI.
 
-Exercise: Populate `order_items` as well as `products` tables.
+## Exercise to Load Data into Tables in Google BigQuery
+As we have gone through the details about loading orders data into table in Google BigQuery, take it as an exercise and load data into `order_items` as well as `products`.
+* You should have been created these empty tables as part of the previous exercise.
+
+## Cleanup of Tables in Google BigQuery
+Let us go ahead and drop the tables in Google BigQuery so that we can create them again.
 
 ## Create Tables using GCS Files in Google BigQuery
 Let us go ahead and create table for `orders` using Web UI of Google BigQuery. The table will be created using GCS Files.
@@ -58,6 +89,30 @@ order_customer_id: INTEGER,
 order_status:STRING
 ```
 
+## Exercise to Create Tables using GCS Files in Google BigQuery
+Let us go ahead and Create tables for `order_items` and `products` in the `retail` dataset. This time we will be creating tables pointing to GCS Files.
+
+Here are the schema details for `order_items`.
+
+```
+order_item_id:INTEGER
+order_item_order_id:INTEGER
+order_item_product_id:INTEGER
+order_item_quantity:INTEGER
+order_item_subtotal:DECIMAL
+order_item_product_price:DECIMAL
+```
+
+Here are the schema details for `products`.
+
+```
+product_id:INTEGER
+product_cateogry_id:INTEGER
+product_name:STRING
+product_description:STRING
+product_price:DECIMAL
+product_image:STRING
+```
 ## SQL Capabilities of Google BigQuery
 Here are some of the SQL Capabilities of Google BigQuery.
 * All Standard SQL Features.
