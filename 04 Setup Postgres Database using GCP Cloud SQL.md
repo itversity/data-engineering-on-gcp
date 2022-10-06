@@ -177,3 +177,8 @@ df = pd.read_sql(
 )
 df
 ```
+
+## Conclusion to Setup Postgres Database using GCP Cloud SQL
+As we have gone through details about setting up Postgres Database Server using GCP Cloud SQL, let us go ahead and stop or terminate the Postgres Database Server.
+* Stop - Retains Databases and Tables
+* Terminate - Every thing will be lost

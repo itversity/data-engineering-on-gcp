@@ -1,5 +1,18 @@
 # Big Data Processing using Databricks on GCP
 
+## Signing up for Databricks on GCP
+Let us see how we can sign up for Databricks Subscription on GCP.
+* Login to GCP Console.
+* Search for Databricks in global search bar and complete the sign up process.
+
+## Creating Databricks Workspace on GCP
+
+As we have signed up for Databricks Subscription for GCP, it is time for us to create Databricks Workspace. Follow the steps as demonstrated in the lecture to create the Databricks Workspace.
+
+Here are some references to review and also request to change the quota limits.
+* Review Quotas by going to this [page](https://docs.gcp.databricks.com/administration-guide/account-settings-gcp/quotas.html).
+* [Page](https://console.cloud.google.com/iam-admin/quotas) to review and change the quota limits.
+
 ## Overview of Databricks on GCP
 Let us get an overview of Databricks on Google Cloud Platform.
 * Databricks is cloud agnostic Spark based Big Data Processig Platform.
@@ -15,53 +28,71 @@ Let us get an overview of Databricks on Google Cloud Platform.
   * Easy Integrations with other Google Services such as Big Query, Looker, etc
   * Big Query is used for Data Warehousing while Looker is used for Business Intelligence (Visualizations such as Reports and Dashboards).
 
-## Signing up for Databricks on GCP
-Let us see how we can sign up for Databricks Subscription on GCP.
-* Login to GCP Console.
-* Search for Databricks in global search bar and complete the sign up process.
-
-## Creating Databricks Workspace on GCP
-
-As we have signed up for Databricks Subscription for GCP, it is time for us to create Databricks Workspace. Follow the steps as demonstrated in the lecture to create the Databricks Workspace.
-
-Here are some references to review and also request to change the quota limits.
-* Review Quotas by going to this [page](https://docs.gcp.databricks.com/administration-guide/account-settings-gcp/quotas.html).
-* [Page](https://console.cloud.google.com/iam-admin/quotas) to review and change the quota limits.
 
 ## Overview of Databricks CLI
 
 As part of this lecture we will understand what is Databricks CLI and also how to configure Databricks CLI.
 
-## Overview of Managing DBFS using Databricks CLI
+## Limitations of Managing DBFS using Databricks CLI
+Let us understand the limitations of managing DBFS on GCP using Databricks CLI.
+* `databricks fs` can be used to manage DBFS Files and Folders on AWS and Azure.
+* On GCP, the feature is currently not available.
 
-As part of this lecture we will understand how to manage DBFS using Databricks CLI.
-* We can use `databricks fs` to manage files in DBFS.
+## Copy Data Sets to DBFS using gsutil Commands
 
-Here are the common tasks which can be performed using `databricks fs` command.
-* Copy files from local file system from client to DBFS and vice versa.
-* List files in DBFS usng `databricks fs ls`.
-* Delete files in DFBS using `databricks fs rm`. Folders can be deleted recursively by using `--recursive`.
+Let us copy retail data set to DBFS using gsutil commands. We will be using `dbfs:/public` as base folder for the datasets.
+* Create DBFS Folder using Databricks Notebook by name `public`
+* Copy the retail_db data sets to relevant GCS bucket (using GCS Web UI or gsutil)
+* Validate using `%fs` command on Databricks Notebook.
 
-## Copy Data Sets to DBFS using Databricks CLI
+Here are the gsutil CLI commands that can be used for above mentioned tasks for the reference.
 
-Let us copy retail data set to DBFS using Databricks CLI. We will be using `dbfs:/public` as base folder for the datasets.
-* Check all the subcommands available under `databricks fs`.
-* Delete `dbfs:/public/retail_db`, if exists. 
-* Make sure folder `dbfs:/public` exists in DBFS.
-* Copy `data/retail_db` recursively to `dbfs:/public/retail_db`.
-* Validate whether the `dbfs:/public/retail_db` contains sub folders related to multiple tables and also few sql scripts.
-
-Here are the commands that can be used for above mentioned tasks for the reference.
 ```shell
-databricks fs -h
-databricks fs rm dbfs:/public/data/retail_db --recursive
-databricks fs mkdirs dbfs:/public/data
-databricks fs cp data/retail_db dbfs:/public/data/retail_db --recursive
+gsutil ls gs://databricks-2976459147516244/2976459147516244
+gsutil cp -r data/retail_db gs://databricks-2976459147516244/2976459147516244/public/retail_db
+gsutil ls -r gs://databricks-2976459147516244/public/retail_db
+```
 
-# Below command can be used to overwrite the retail_db folder, if exists
-databricks fs cp data/retail_db dbfs:/public/data/retail_db --recursive --overwrite
+Here are the Databricks Notebook Commands used for your reference.
 
-databricks fs ls dbfs:/public/data/retail_db # recursive doesn't work
+```shell
+%fs mkdirs dbfs:/public
+%fs ls dbfs:/public
+%fs ls dbfs:/public/retail_db/orders
+```
+
+Here are the Spark SQL Commands used to process the data.
+
+```sql
+CREATE TEMPORARY VIEW orders (
+    order_id INT,
+    order_date STRING,
+    order_customer_id INT,
+    order_status STRING
+) USING CSV
+OPTIONS (
+    path='dbfs:/public/retail_db/orders/'
+)
+
+SELECT order_status, count(*) AS order_count 
+FROM orders
+GROUP BY 1
+ORDER BY 2 DESC
+```
+
+Here is the Pyspark code used to process the data.
+
+```python
+schema = 'order_id INT, order_date STRING, order_customer_id INT, order_status STRING'
+
+orders = spark. \
+    read. \
+    csv('/public/retail_db/orders', schema=schema)
+
+orders. \
+    groupBy('order_status'). \
+    count(). \
+    show()
 ```
 
 ## Spark SQL Example using Databricks
@@ -101,7 +132,7 @@ Let us get an overview of Databricks Workflows.
 
 ## Modularize Spark Applications as Multiple Tasks
 Let us see how to modularize Spark Applications as Multiple Tasks.
-* We will use folders under `retail_db_header`.
+* We will use folders under `retail_db`.
 
 The logic will be divided into two SQL based Notebooks.
 * File Format Converter - converts CSV to Parquet based on the argument passed.
