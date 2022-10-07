@@ -216,6 +216,66 @@ As part of this lecture we will modularize Dataproc Applications as Multiple Job
 
 Refer to respective scripts under scripts folder in our Git Repository. Make sure to copy the scripts into GCS and run directly using `spark-sql` on Dataproc Cluster for unit testing.
 
+Here are the commands used to validate local scripts using `spark-sql`.
+
+```shell
+spark-sql -f scripts/daily_product_revenue/cleanup.sql
+
+spark-sql -f scripts/daily_product_revenue/file_format_converter.sql \
+    -d bucket_name=gs://airetail \
+    -d table_name=orders
+
+spark-sql -f scripts/daily_product_revenue/file_format_converter.sql \
+    -d bucket_name=gs://airetail \
+    -d table_name=order_items
+
+spark-sql -f scripts/daily_product_revenue/compute_daily_product_revenue.sql \
+    -d bucket_name=gs://airetail
+```
+
+Here are the commands used to deploy the scripts to GCS and then validate using `spark-sql`.
+
+```shell
+gsutil cp -r scripts/daily_product_revenue/ gs://airetail/scripts/daily_product_revenue
+
+spark-sql -f gs://airetail/scripts/daily_product_revenue/cleanup.sql
+
+spark-sql -f gs://airetail/scripts/daily_product_revenue/file_format_converter.sql \
+    -d bucket_name=gs://airetail \
+    -d table_name=orders
+
+spark-sql -f gs://airetail/scripts/daily_product_revenue/file_format_converter.sql \
+    -d bucket_name=gs://airetail \
+    -d table_name=order_items
+
+spark-sql -f gs://airetail/scripts/daily_product_revenue/compute_daily_product_revenue.sql \
+    -d bucket_name=gs://airetail
+```
+
+Here are the gcloud commands to submit Dataproc Jobs with Spark SQL Scripts.
+
+```shell
+gcloud config set dataproc/region us-central1
+
+gcloud dataproc jobs submit \
+    spark-sql --cluster=aidataprocdev \
+    -f gs://airetail/scripts/daily_product_revenue/cleanup.sql
+
+gcloud dataproc jobs submit \
+    spark-sql -f gs://airetail/scripts/daily_product_revenue/file_format_converter.sql \
+    -d bucket_name=gs://airetail \
+    -d table_name=orders
+
+gcloud dataproc jobs submit \
+    spark-sql -f gs://airetail/scripts/daily_product_revenue/file_format_converter.sql \
+    -d bucket_name=gs://airetail \
+    -d table_name=order_items
+
+gcloud dataproc jobs submit \
+    spark-sql -f gs://airetail/scripts/daily_product_revenue/compute_daily_product_revenue.sql \
+    -d bucket_name=gs://airetail
+```
+
 ## Job Orchestration using Dataproc Workflows
 Let us go ahead and create the 3 jobs and then create workflow using the jobs just created.
 * One job to process `orders` data set and convert into **Parquet** format in a metastore table.
