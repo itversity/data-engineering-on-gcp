@@ -46,7 +46,7 @@ Let us go ahead and configure Network Connectivity to Dataproc Cluster. We typic
 * Go to the Network Configuration and create static ip in the same region as the target Dataproc Cluster.
 * Make sure to associate the Master Node of the Dataproc Cluster with static public ip.
 * Run gcloud command on personal Mac or PC to update the private key to connect to virtual machine associated with Master Node of the cluster.
-* Exit and Validate using SSH to see if connection Master Node of the Dataproc Cluster is working as expected or not.
+* Exit and Validate using SSH to see if connection to the Master Node of the Dataproc Cluster is working as expected or not.
 
 ## Remote Development using VS Code on Dataproc
 Let us go through the details about setting up remote development using VS Code on Dataproc.
@@ -206,7 +206,7 @@ USING JSON
 SELECT order_date, order_status, count(*)
 FROM JSON.`gs://airetail/retail_db_json/orders`
 GROUP BY 1, 2
-ORDER BY 1, 2
+ORDER BY 1, 3 DESC
 ```
 
 ## Modularize Dataproc Applications as Multiple Jobs

@@ -15,11 +15,11 @@ Here are some references to review and also request to change the quota limits.
 
 ## Overview of Databricks on GCP
 Let us get an overview of Databricks on Google Cloud Platform.
-* Databricks is cloud agnostic Spark based Big Data Processig Platform.
 * Databricks is available on all leading cloud platforms.
   * AWS
   * Azure
   * **Google Cloud Platform (GCP)**
+* Databricks is cloud agnostic Spark based Big Data Processing Platform.
 * Here are the features of Databricks on GCP.
   * Seamless Integration with GCS for Data Lake Storage.
   * Purpose Built Clusters for different workloads.
