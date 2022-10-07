@@ -1,5 +1,5 @@
 CREATE DATABASE IF NOT EXISTS retail_gold_db
-LOCATION 'gs://airetail/retail_gold.db';
+LOCATION '${bucket_name}/retail_gold.db';
 
 USE retail_gold_db;
 
