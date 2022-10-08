@@ -252,40 +252,22 @@ spark-sql -f gs://airetail/scripts/daily_product_revenue/compute_daily_product_r
     -d bucket_name=gs://airetail
 ```
 
-Here are the gcloud commands to submit Dataproc Jobs with Spark SQL Scripts.
-
-```shell
-gcloud config set dataproc/region us-central1
-
-gcloud dataproc jobs submit \
-    spark-sql --cluster=aidataprocdev \
-    -f gs://airetail/scripts/daily_product_revenue/cleanup.sql
-
-gcloud dataproc jobs submit \
-    spark-sql -f gs://airetail/scripts/daily_product_revenue/file_format_converter.sql \
-    -d bucket_name=gs://airetail \
-    -d table_name=orders
-
-gcloud dataproc jobs submit \
-    spark-sql -f gs://airetail/scripts/daily_product_revenue/file_format_converter.sql \
-    -d bucket_name=gs://airetail \
-    -d table_name=order_items
-
-gcloud dataproc jobs submit \
-    spark-sql -f gs://airetail/scripts/daily_product_revenue/compute_daily_product_revenue.sql \
-    -d bucket_name=gs://airetail
-```
+You can review the Notebook for gcloud commands to submit Dataproc Jobs with Spark SQL Scripts.
 
 ## Job Orchestration using Dataproc Workflows
-Let us go ahead and create the 3 jobs and then create workflow using the jobs just created.
+Let us go ahead and create Workflow Template with 4 jobs as per design. We will take care of creating Workflow Template using subcommands under `gcloud dataproc workflow-templates`.
+* One job to cleanup the databases.
 * One job to process `orders` data set and convert into **Parquet** format in a metastore table.
 * One job to process `order_items` data set and convert into **Parquet** format in a metastore table.
 * One job to compute daily product revenue and store the result in a metastore table.
 * The locations for all the 3 tables are based on GCS.
-* Create Workflow Template using all the 3 jobs. We need to define first 2 jobs as dependencies for the 3rd job.
+
+You can review the Jupyter Notebook for the commands related to creating workflow template and running it.
 
 ## Run and Validate Dataproc Workflows
+Let us make sure to run and validate Dataproc Workflows to understand the overall process of unit testing of the ELT Data Pipelines built using Dataproc Workflows.
+
+Please refer to the relevant Notebooks. We have also covered about how to manage workflow runs using relevant `gcloud dataproc` commands.
 
 ## Access Spark UI of GCP Dataproc
-
-## Troubleshoot Spark Jobs using Spark UI on Dataproc
+Let us also understand how to access Spark UI of GCP Dataproc to troubleshoot issues related to Spark Jobs.
