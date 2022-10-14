@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS retail_bronze_db CASCADE;
+DROP DATABASE IF EXISTS retail_gold_db CASCADE;
