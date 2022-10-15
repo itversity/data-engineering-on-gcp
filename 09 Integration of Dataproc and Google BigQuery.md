@@ -12,7 +12,8 @@ from google.cloud import bigquery
 client = bigquery.Client()
 QUERY = (
     'SELECT * FROM `itversity-rnd.retail.orders` '
-    'LIMIT 10')
+    'LIMIT 10'
+)
 query_job = client.query(QUERY)
 rows = query_job.result()
 
@@ -23,10 +24,13 @@ for row in rows:
 ## Validate Google BigQuery Integration with Pyspark
 Let us go ahead and validate Google BigQuery Integration with Pyspark. We need to make sure Pyspark is launched with appropriate jars of Google BigQuery Spark Connector.
 * Here is the command used based on the version of Scala using which Spark is developed.
+
 ```shell
 pyspark --jars gs://spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.26.0.jar
 ```
+
 * Here is sample Spark Code to read from BigQuery Table.
+
 ```python
 df = spark. \
     read. \
@@ -80,6 +84,7 @@ daily_product_revenue. \
 ```
 
 ## Validate by Querying Google BigQuery Table
+Make sure to login and validate by querying table in Google BigQuery.
 
 ## Reset Table in Google BigQuery
 Let us go ahead and truncate the table in BigQuery, so thate we can deploy the Spark Job to load the data into the table.
@@ -116,7 +121,23 @@ spark-submit \
 ```
 ## Copy the Application to GCS
 Make sure to copy the application to GCS so that we can create the job without any issue using Dataproc.
+
+```
+gsutil cp apps/daily_product_revenue_bq/app.py gs://airetail/apps/daily_product_revenue_bq/app.py
+```
 * One can validate whether the application can be run from GCS or not by submitting the job using `spark-submit`.
+
+```shell
+spark-submit \
+    --master yarn \
+    --deploy-mode cluster \
+    --jars gs://spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.26.0.jar \
+	--conf "spark.yarn.appMasterEnv.DATA_URI=gs://airetail/retail_gold.db/daily_product_revenue" \
+	--conf "spark.yarn.appMasterEnv.PROJECT_ID=tidy-fort-361710" \
+	--conf "spark.yarn.appMasterEnv.DATASET_NAME=retail" \
+	--conf "spark.yarn.appMasterEnv.GCS_TEMP_BUCKET=airetail" \
+	gs://airetail/apps/daily_product_revenue_bq/app.py
+```
 
 ## Deploy and Run Dataproc Spark Job
 Here are the configurations related to Dataproc Spark Job.
@@ -133,7 +154,14 @@ Here are the configurations related to Dataproc Spark Job.
 |spark.yarn.appMasterEnv.GCS_TEMP_BUCKET|airetail|
 |spark.submit.deployMode|cluster|
 
+## Validate Spark Job with BigQuery Integration
+
+```
+```
+
 ## Add Spark Job to the Dataproc Workflow
+Let us make sure we create the Dataproc Workflow with the following.
+* 
 
 ## Run and Validate the Dataproc Workflow
 

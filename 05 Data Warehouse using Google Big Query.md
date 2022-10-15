@@ -89,6 +89,17 @@ order_customer_id: INTEGER,
 order_status:STRING
 ```
 
+You can also create table using BigQuery Editor in Google Cloud Console.
+
+```sql
+CREATE TABLE itversity-rnd.retail.orders (
+  order_id INTEGER,
+  order_date DATE,
+  order_cusotmer_id INTEGER,
+  order_status STRING
+);
+```
+
 ## Exercise to Create Tables using GCS Files in Google BigQuery
 Let us go ahead and Create tables for `order_items` and `products` in the `retail` dataset. This time we will be creating tables pointing to GCS Files.
 
@@ -113,6 +124,7 @@ product_description:STRING
 product_price:DECIMAL
 product_image:STRING
 ```
+
 ## SQL Capabilities of Google BigQuery
 Here are some of the SQL Capabilities of Google BigQuery.
 * All Standard SQL Features.
