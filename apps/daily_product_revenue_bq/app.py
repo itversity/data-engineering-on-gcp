@@ -3,8 +3,6 @@ from pyspark.sql import SparkSession
 
 spark = SparkSession. \
     builder. \
-    master('yarn'). \
-    appName('Daily Product Revenue Loader'). \
     getOrCreate()
 
 data_uri = os.environ.get('DATA_URI')
