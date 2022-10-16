@@ -56,8 +56,8 @@ order_item_id:INTEGER
 order_item_order_id:INTEGER
 order_item_product_id:INTEGER
 order_item_quantity:INTEGER
-order_item_subtotal:DECIMAL
-order_item_product_price:DECIMAL
+order_item_subtotal:FLOAT
+order_item_product_price:FLOAT
 ```
 
 Here are the schema details for `products`.
@@ -67,7 +67,7 @@ product_id:INTEGER
 product_cateogry_id:INTEGER
 product_name:STRING
 product_description:STRING
-product_price:DECIMAL
+product_price:FLOAT
 product_image:STRING
 ```
 
@@ -121,8 +121,8 @@ order_item_id:INTEGER
 order_item_order_id:INTEGER
 order_item_product_id:INTEGER
 order_item_quantity:INTEGER
-order_item_subtotal:DECIMAL
-order_item_product_price:DECIMAL
+order_item_subtotal:FLOAT
+order_item_product_price:FLOAT
 ```
 
 Here are the schema details for `products`.
@@ -132,7 +132,7 @@ product_id:INTEGER
 product_cateogry_id:INTEGER
 product_name:STRING
 product_description:STRING
-product_price:DECIMAL
+product_price:FLOAT
 product_image:STRING
 ```
 
