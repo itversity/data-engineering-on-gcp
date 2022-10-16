@@ -1,6 +1,12 @@
 # Data Warehouse using Google BigQuery
 
 ## Overview of Google BigQuery
+
+Google BigQuery is a Cloudbased Data Warehouse. It is not only serverless, but also cost-effective as well as multi-cloud.
+* Cost-effective
+* Serverless
+* Multicloud
+
 Here are the benefits of Google BigQuery.
 * Gain insights with real-time and predictive analytics
 * Access data and share insights with ease
@@ -28,6 +34,18 @@ order_customer_id: INTEGER,
 order_status:STRING
 ```
 
+You can also create table using BigQuery Editor in Google Cloud Console.
+
+```sql
+CREATE TABLE tidy-fort-361710.retail.orders (
+  order_id INTEGER,
+  order_date DATE,
+  order_cusotmer_id INTEGER,
+  order_status STRING
+);
+```
+
+
 ## Exercise to Create Additional Tables in Google BigQuery Dataset
 Let us go ahead and Create Empty tables for `order_items` and `products` in the `retail` dataset.
 
@@ -53,17 +71,6 @@ product_price:DECIMAL
 product_image:STRING
 ```
 
-## Setup Service Account for Google BigQuery
-Let us go ahead and setup service account for Google BigQuery and Download the Credentials.
-* Authentication and Authorization from External Environments
-
-Here are the instructions to setup service account and download the credentials (also known as keys).
-* You can use instructions in this [document](https://cloud.google.com/bigquery/docs/quickstarts/quickstart-client-libraries) to get instructions related to Google Client Service Accounts.
-* Make sure to choose appropriate Project.
-* Enable BigQuery API 
-* Create Service Account with Owner Role
-* Add and Download the Keys
-
 ## Load Data into an Empty Table in Google BigQuery
 Here is the Python based approach to load data from files in GCS into Google BigQuery Table.
 * We need to make sure we instantiate the client.
@@ -82,6 +89,7 @@ Let us go ahead and drop the tables in Google BigQuery so that we can create the
 ## Create Tables using GCS Files in Google BigQuery
 Let us go ahead and create table for `orders` using Web UI of Google BigQuery. The table will be created using GCS Files.
 * After choosing Cloud Storage as source, we can specify column names like this as our data doesn't have header. We need to make sure the data type for `order_date` is defined as `TIMESTAMP`.
+
 ```
 order_id:INTEGER,
 order_date:TIMESTAMP,
@@ -89,14 +97,17 @@ order_customer_id: INTEGER,
 order_status:STRING
 ```
 
-You can also create table using BigQuery Editor in Google Cloud Console.
+You can also use `CREATE EXTERNAL TABLE` command to create table using location in GCS. Here is the [link](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_external_table_statement) for the syntax to create external tables in Google BigQuery.
 
 ```sql
-CREATE TABLE itversity-rnd.retail.orders (
-  order_id INTEGER,
-  order_date DATE,
-  order_cusotmer_id INTEGER,
-  order_status STRING
+CREATE EXTERNAL TABLE retail.orders (
+    order_id INTEGER,
+    order_date TIMESTAMP,
+    order_customer_id INTEGER,
+    order_status STRING
+) OPTIONS (
+    format = 'CSV',
+    uris = ['gs://airetail/retail_db/orders/*']
 );
 ```
 
@@ -235,18 +246,34 @@ Let us get an overview of Integration of BigQuery with Cloud SQL (Postgresql).
 ```sql
 SELECT * 
 FROM EXTERNAL_QUERY(
-    "itversity-rnd.us.retail_pg", 
-    "SELECT * FROM INFORMATION_SCHEMA.TABLES;"
+  "tidy-fort-361710.us.retailpgexternal",
+  "SELECT * FROM information_schema.tables WHERE table_schema = 'public'"
 );
 
 SELECT * 
 FROM EXTERNAL_QUERY(
-    "itversity-rnd.us.retail_pg", 
-    """
-        SELECT order_date, count(*) AS order_count 
-        FROM orders 
-        GROUP BY order_date
-        ORDER BY 1;
-    """
+  "tidy-fort-361710.us.retailpgexternal",
+  "SELECT order_date, count(*) AS order_count FROM orders GROUP BY 1 ORDER BY 2 DESC"
 );
+
+SELECT *
+FROM EXTERNAL_QUERY(
+  "tidy-fort-361710.us.retailpgexternal",
+  "SELECT * FROM products"  
+) AS p;
+
+SELECT o.order_date,
+  oi.order_item_product_id,
+  p.product_name,
+  round(sum(oi.order_item_subtotal)) AS revenue
+FROM EXTERNAL_QUERY(
+  "tidy-fort-361710.us.retailpgexternal",
+  "SELECT * FROM products"  
+) AS p 
+  JOIN retail.order_items AS oi
+    ON p.product_id = oi.order_item_product_id
+  JOIN retail.orders AS o
+    ON oi.order_item_order_id = o.order_id
+GROUP BY 1, 2, 3
+ORDER BY 1, 4 DESC;
 ```
