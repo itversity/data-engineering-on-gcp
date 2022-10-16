@@ -11,7 +11,7 @@ from google.cloud import bigquery
 
 client = bigquery.Client()
 QUERY = (
-    'SELECT * FROM `itversity-rnd.retail.orders` '
+    'SELECT * FROM `tidy-fort-361710.retail.orders` '
     'LIMIT 10'
 )
 query_job = client.query(QUERY)
@@ -32,10 +32,12 @@ pyspark --jars gs://spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.2
 * Here is sample Spark Code to read from BigQuery Table.
 
 ```python
+project_id = 'tidy-fort-361710'
+
 df = spark. \
     read. \
     format('bigquery'). \
-    option('table', 'itversity-rnd:retail.orders'). \
+    option('table', f'{project_id}:retail.orders'). \
     load()
 
 df.printSchema()
@@ -75,11 +77,13 @@ daily_product_revenue = spark. \
 
 spark.conf.set('temporaryGcsBucket', 'airetail')
 
+project_id = 'tidy-fort-361710'
+
 daily_product_revenue. \
     write. \
     mode('overwrite'). \
     format('bigquery'). \
-    option('table', 'itversity-rnd:retail.daily_product_revenue'). \
+    option('table', f'{project_id}:retail.daily_product_revenue'). \
     save()
 ```
 
@@ -87,7 +91,7 @@ daily_product_revenue. \
 Make sure to login and validate by querying table in Google BigQuery.
 
 ## Reset Table in Google BigQuery
-Let us go ahead and truncate the table in BigQuery, so thate we can deploy the Spark Job to load the data into the table.
+Let us go ahead and truncate the table in BigQuery, so that we can deploy the Spark Job to load the data into the table.
 * We can use `TRUNCATE TABLE retail.daily_product_revenue` to truncate the table.
 
 ## Build Dataproc Spark Job with BigQuery Integration
