@@ -183,5 +183,5 @@ Let us make sure we create the Dataproc Workflow for the end to end pipeline inc
 We will be using relevant `gcloud dataproc` commands to create the workflow. Please refer to the Notebook which have all the relevant commands.
 
 ## Run and Validate the Dataproc Workflow
-
-## Demo of End to End Data Pipeline Workflow
+As Dataproc Workflow is created, let us instantiate and validate if it run without any issues.
+* Make sure to truncate BigQuery Table before running the Workflow.
