@@ -101,15 +101,20 @@ Let us go ahead and create program file with core logic to write data from parqu
 
 * The application is already made available to you under `apps` folder. Make sure to review the application before running it.
 * Export all the relevant variables. Make sure to update values based on your environment.
+
 ```shell
 export DATA_URI='gs://airetail/retail_gold.db/daily_product_revenue'
 export PROJECT_ID='tidy-fort-361710'
 export DATASET_NAME='retail'
 export GCS_TEMP_BUCKET='airetail'
 ```
+
 * Run `spark-submit` to submit the job.
+
 ```shell
 spark-submit \
+    --master yarn \
+    --name "Daily Product Revenue Loader" \
     --jars gs://spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.26.0.jar \
     app.py
 ```
@@ -127,6 +132,7 @@ spark-submit \
     --conf "spark.yarn.appMasterEnv.GCS_TEMP_BUCKET=airetail" \
     app.py
 ```
+
 ## Copy the Application to GCS
 Make sure to copy the application to GCS so that we can create the job without any issue using Dataproc.
 

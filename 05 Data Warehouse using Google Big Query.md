@@ -20,6 +20,13 @@ Here are the key features of Google BigQuery.
 
 You can follow this [page](https://cloud.google.com/bigquery) to get more details about Google BigQuery. As part of this course, we will see how to get started from the perspective of Interactive data analysis with BigQuery BI Engine as it is closest to the Data Engineering. We will also look into key integrations such as Python, Pandas, and Spark using Dataproc/Databricks.
 
+## CRUD Operations using Google BigQuery
+Let us quickly review CRUD Operations using Google BigQuery. We can perform all standard CRUD Operations on Google BigQuery Tables.
+* INSERT
+* UPDATE
+* DELETE
+* MERGE (also known as UPSERT)
+
 ## Create Dataset and Tables in Google BigQuery
 Let us go ahead and see how we can create Dataset and an empty table using Google BigQuery.
 * Once we login into BigQuery UI, we can create data set under the project. Let us create data set by name **retail**.
