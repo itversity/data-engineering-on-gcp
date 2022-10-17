@@ -173,7 +173,7 @@ Here are the configurations related to Dataproc Spark Job.
 ```
 ```
 
-## Add Spark Job to the Dataproc Workflow
+## Spark Data Pipeline using Dataproc Workflow
 Let us make sure we create the Dataproc Workflow for the end to end pipeline including Pyspark Application to load daily product revenue data from Parquet Files to BigQuery Table. Here are the details related to end-to-end pipeline.
 * Cleanup Spark Metastore Databases and Tables.
 * Convert Files from JSON to Parquet for Orders and Order Items.
