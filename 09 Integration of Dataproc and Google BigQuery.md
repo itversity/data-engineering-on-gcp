@@ -133,7 +133,7 @@ spark-submit \
     app.py
 ```
 
-## Copy the Application to GCS
+## Deploy Spark Application with BigQuery Integration to GCS
 Make sure to copy the application to GCS so that we can create the job without any issue using Dataproc.
 
 ```
@@ -145,6 +145,7 @@ gsutil cp apps/daily_product_revenue_bq/app.py gs://airetail/apps/daily_product_
 spark-submit \
     --master yarn \
     --deploy-mode cluster \
+    --name "Daily Product Revenue Loader" \
     --jars gs://spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.26.0.jar \
 	--conf "spark.yarn.appMasterEnv.DATA_URI=gs://airetail/retail_gold.db/daily_product_revenue" \
 	--conf "spark.yarn.appMasterEnv.PROJECT_ID=tidy-fort-361710" \
@@ -156,17 +157,18 @@ spark-submit \
 ## Deploy and Run Dataproc Spark Job
 Here are the configurations related to Dataproc Spark Job.
 * Job type: **PySpark**
-* Main python file: **gs://airetail/apps/daily_product_revenue/app.py**
+* Main python file: **gs://airetail/apps/daily_product_revenue_bq/app.py**
 * Jar files: **gs://spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.26.0.jar**
 * Properties
 
 |Key|Value|
 |---|---|
 |spark.yarn.appMasterEnv.DATA_URI|gs://airetail/retail_gold.db/daily_product_revenue|
-|spark.yarn.appMasterEnv.PROJECT_ID|itversity-rnd|
+|spark.yarn.appMasterEnv.PROJECT_ID|tidy-fort-361710|
 |spark.yarn.appMasterEnv.DATASET_NAME|retail|
 |spark.yarn.appMasterEnv.GCS_TEMP_BUCKET|airetail|
 |spark.submit.deployMode|cluster|
+|spark.app.name|Daily Product Revenue Loader|
 
 Let us take care of submitting the application using `gcloud dataproc` command from our local development environment (Mac or Windows PC).
 
@@ -174,7 +176,7 @@ Let us take care of submitting the application using `gcloud dataproc` command f
 gcloud dataproc jobs submit \
     pyspark --cluster=aidataprocdev \
     --jars=gs://spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.26.0.jar \
-	--properties=spark.name="BigQuery Loader - Daily Product Revenue",spark.submit.deployMode=cluster,spark.yarn.appMasterEnv.DATA_URI=gs://airetail/retail_gold.db/daily_product_revenue,spark.yarn.appMasterEnv.PROJECT_ID=tidy-fort-361710,spark.yarn.appMasterEnv.DATASET_NAME=retail,spark.yarn.appMasterEnv.GCS_TEMP_BUCKET=airetail \
+	--properties=spark.app.name="BigQuery Loader - Daily Product Revenue",spark.submit.deployMode=cluster,spark.yarn.appMasterEnv.DATA_URI=gs://airetail/retail_gold.db/daily_product_revenue,spark.yarn.appMasterEnv.PROJECT_ID=tidy-fort-361710,spark.yarn.appMasterEnv.DATASET_NAME=retail,spark.yarn.appMasterEnv.GCS_TEMP_BUCKET=airetail \
     gs://airetail/apps/daily_product_revenue_bq/app.py
 ```
 
