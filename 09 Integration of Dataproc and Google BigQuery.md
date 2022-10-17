@@ -168,9 +168,14 @@ Here are the configurations related to Dataproc Spark Job.
 |spark.yarn.appMasterEnv.GCS_TEMP_BUCKET|airetail|
 |spark.submit.deployMode|cluster|
 
-## Validate Spark Job with BigQuery Integration
+Let us take care of submitting the application using `gcloud dataproc` command from our local development environment (Mac or Windows PC).
 
-```
+```shell
+gcloud dataproc jobs submit \
+    pyspark --cluster=aidataprocdev \
+    --jars=gs://spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.26.0.jar \
+	--properties=spark.name="BigQuery Loader - Daily Product Revenue",spark.submit.deployMode=cluster,spark.yarn.appMasterEnv.DATA_URI=gs://airetail/retail_gold.db/daily_product_revenue,spark.yarn.appMasterEnv.PROJECT_ID=tidy-fort-361710,spark.yarn.appMasterEnv.DATASET_NAME=retail,spark.yarn.appMasterEnv.GCS_TEMP_BUCKET=airetail \
+    gs://airetail/apps/daily_product_revenue_bq/app.py
 ```
 
 ## Spark Data Pipeline using Dataproc Workflow
