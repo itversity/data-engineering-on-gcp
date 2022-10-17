@@ -87,7 +87,8 @@ daily_product_revenue. \
     save()
 ```
 
-## Validate by Querying Google BigQuery Table
+* Validate by Querying Google BigQuery Table.
+
 Make sure to login and validate by querying table in Google BigQuery.
 
 ## Reset Table in Google BigQuery
@@ -96,7 +97,9 @@ Let us go ahead and truncate the table in BigQuery, so that we can deploy the Sp
 
 ## Build Dataproc Spark Job with BigQuery Integration
 
-Here are the instructions to submit the job in client mode.
+Let us go ahead and create program file with core logic to write data from parquet files into BigQuery Table using Spark. Once the program file is ready we can follow below instructions to validate the application using client mode.
+
+* The application is already made available to you under `apps` folder. Make sure to review the application before running it.
 * Export all the relevant variables. Make sure to update values based on your environment.
 ```shell
 export DATA_URI='gs://airetail/retail_gold.db/daily_product_revenue'
@@ -111,7 +114,7 @@ spark-submit \
     app.py
 ```
 
-Here are the instructions to submit Spark Job using cluster mode.
+Here are the instructions to submit the same Spark Job using cluster mode.
 ```shell
 spark-submit \
     --master yarn \
@@ -165,8 +168,13 @@ Here are the configurations related to Dataproc Spark Job.
 ```
 
 ## Add Spark Job to the Dataproc Workflow
-Let us make sure we create the Dataproc Workflow with the following.
-* 
+Let us make sure we create the Dataproc Workflow for the end to end pipeline including Pyspark Application to load daily product revenue data from Parquet Files to BigQuery Table. Here are the details related to end-to-end pipeline.
+* Cleanup Spark Metastore Databases and Tables.
+* Convert Files from JSON to Parquet for Orders and Order Items.
+* Compute Daily Product Revenue and save the output to GCS using Parquet Files.
+* Copy Data from GCS into BigQuery Table using Spark BigQuery Connector.
+
+We will be using relevant `gcloud dataproc` commands to create the workflow. Please refer to the Notebook which have all the relevant commands.
 
 ## Run and Validate the Dataproc Workflow
 
