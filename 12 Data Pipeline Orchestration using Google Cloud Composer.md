@@ -32,12 +32,12 @@ Let us make sure we understand the development process of Airflow DAGs for Cloud
 * We will monitor the DAGs using Airflow UI in Cloud Composer.
 
 ## Install required dependencies for development
-Let us ensure that we develop the required dependencies for local development of Airflow DAGs.
+Let us ensure that we install the required dependencies for local development of Airflow DAGs.
 * We will use local development environment for the development.
 * We need to install following dependencies to develop Airflow DAGs for GCP Services.
 
 ```shell
-pip install apache-airflow
+pip install apache-airflow==2.3.3
 pip install apache-airflow-providers-google
 ```
 
@@ -65,5 +65,17 @@ Let us understand how Airflow works.
 * Workers will execute the tasks in the DAGs in orchestrated fashion.
 
 ## Run First Airflow DAG in Cloud Composer
+Let us understand how to run first Aiflow DAG in Cloud Composer.
+* Review the simple Python based code used to develop the logic with 2 tasks.
+* Copy the DAG to GCS to relevant location.
+* Wait for some time and review to see if the DAG is reflected in Airflow UI and also see if it run automatically or not.
+
+Here is the command that is used to copy the Airflow DAG (Python Script) to GCS.
+```shell
+gsutil ls gs://us-central1-aiairflow-206f06a1-bucket/dags
+gsutil cp apps/airflow_dags/tutorial_dag.py gs://us-central1-aiairflow-206f06a1-bucket/dags
+
+gsutil ls gs://us-central1-aiairflow-206f06a1-bucket/dags
+```
 
 ## Overview of Dataproc Operators
