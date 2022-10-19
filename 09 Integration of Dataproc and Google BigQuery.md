@@ -176,7 +176,12 @@ Let us take care of submitting the application using `gcloud dataproc` command f
 gcloud dataproc jobs submit \
     pyspark --cluster=aidataprocdev \
     --jars=gs://spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.26.0.jar \
-	--properties=spark.app.name="BigQuery Loader - Daily Product Revenue",spark.submit.deployMode=cluster,spark.yarn.appMasterEnv.DATA_URI=gs://airetail/retail_gold.db/daily_product_revenue,spark.yarn.appMasterEnv.PROJECT_ID=tidy-fort-361710,spark.yarn.appMasterEnv.DATASET_NAME=retail,spark.yarn.appMasterEnv.GCS_TEMP_BUCKET=airetail \
+	--properties=spark.app.name="BigQuery Loader - Daily Product Revenue" \
+    --properties=spark.submit.deployMode=cluster \
+    --properties=spark.yarn.appMasterEnv.DATA_URI=gs://airetail/retail_gold.db/daily_product_revenue \
+    --properties=spark.yarn.appMasterEnv.PROJECT_ID=tidy-fort-361710 \
+    --properties=spark.yarn.appMasterEnv.DATASET_NAME=retail \
+    --properties=spark.yarn.appMasterEnv.GCS_TEMP_BUCKET=airetail \
     gs://airetail/apps/daily_product_revenue_bq/app.py
 ```
 
@@ -192,3 +197,12 @@ We will be using relevant `gcloud dataproc` commands to create the workflow. Ple
 ## Run and Validate the Dataproc Workflow
 As Dataproc Workflow is created, let us instantiate and validate if it run without any issues.
 * Make sure to truncate BigQuery Table before running the Workflow.
+
+## Update Job Properties in Dataproc Workflow Template
+Let us understand how to fix issues by updating job properties in Dataproc Workflow Template.
+* Make sure the issue is troubleshooted.
+* Remove the job from Workflow Template.
+* Add the job back to Workflow Template by fixing the properties relevant to job.
+* Run the template and validate.
+
+Now, the Workflow Template is ready to schedule. You can integrate Workflow Template with your enterprise scheduler either by using Shell scripts or commands, REST APIs as well as SDK. For example, we can use relevant Airflow Operator (Airflow Google Cloud SDK) to run Workflow Templates.
