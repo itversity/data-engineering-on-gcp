@@ -82,7 +82,7 @@ Here is what happens to identify the DAGs.
 * The DAGs will be refreshed as part of the UI.
 * One Python program can have multiple DAGs and one DAG might be spawned across multiple Python Scripts.
 
-## Overview of Dataproc Operators
+## Overview of Airflow Dataproc Operators
 
 Let us get an overview of Dataproc Operators. As we have installed `apache-airflow-providers-google`, the provider related to Dataproc Operators also will be installed.
 
@@ -104,9 +104,9 @@ Let us undestand how to trigger GCP Dataproc Workflow using Cloud Composer.
 ## Using Variables in Airflow DAGs
 
 Let us refactor the code using variables rather than hard coded values for project id, region, etc.
+* Create new Python program file and make changes to the code to use values from variables for project id and region.
+* Make sure to change the DAG id as it is supposed to be unique.
 * Use Airflow UI to define required variables.
-* Make changes to the code to use values from variables for project id and region.
-* Delete the old DAG along with runs. You need to delete the Python program from DAGs folder.
 * Deploy and Run the DAG.
 * Monitor both Airflow DAG and Dataproc Workflow.
 
